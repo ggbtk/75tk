@@ -5,7 +5,7 @@
 <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="format-detection" content="telephone=no"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:title" content="치로티켓"/>
 <meta property="og:description" content="365일 24시간 연중무휴 모바일상품권 안심거래 정식등록업체 치로티켓"/>
 <meta name="description" content="365일 24시간 연중무휴 모바일상품권 안심거래 정식등록업체 치로티켓"/>
@@ -21,6 +21,44 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+
+<script>
+    function resizeMap() {
+        const img = document.querySelector('img[usemap="#map01"]');
+        const map = document.querySelector('map[name="map01"]');
+        const areas = map.querySelectorAll('area');
+
+        if (!img || !map || !areas.length) return;
+
+        const imgWidth = img.naturalWidth; // 이미지 원본 너비
+        const imgHeight = img.naturalHeight; // 이미지 원본 높이
+        const renderedWidth = img.offsetWidth; // 렌더링된 이미지 너비
+        const renderedHeight = img.offsetHeight; // 렌더링된 이미지 높이
+
+        const scaleWidth = renderedWidth / imgWidth;
+        const scaleHeight = renderedHeight / imgHeight;
+
+        areas.forEach((area) => {
+            const originalCoords = area.dataset.originalCoords || area.coords;
+            if (!area.dataset.originalCoords) {
+                area.dataset.originalCoords = originalCoords; // 원래 좌표 저장
+            }
+
+            const coords = originalCoords.split(',').map(Number);
+            const scaledCoords = coords.map((coord, index) =>
+                index % 2 === 0 ? coord * scaleWidth : coord * scaleHeight
+            );
+
+            area.coords = scaledCoords.join(',');
+        });
+    }
+
+    // 이벤트 리스너 등록
+    window.addEventListener('resize', resizeMap);
+    window.addEventListener('load', resizeMap);
+</script>
+
+
 <div id="wrap">
     <!--    
 	<div class="main_popup">
